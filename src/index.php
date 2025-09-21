@@ -24,7 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['pass
 
         // Redirection si le paramètre existe dans POST
         if (!empty($_POST['redirect'])) {
-            header('Location: ' . $_POST['redirect']);
+            if (array_key_exists($_POST['redirect'], $config['allowed_redirects'])) {
+                header('Location: ' . $config['allowed_redirects'][$_POST['redirect']] . $result);
+            } else {
+                echo "Redirection non autorisée.";
+            }
             exit;
         }
     } else {
