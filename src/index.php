@@ -28,35 +28,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['pass
         if (!empty($_POST['redirect'])) {
             if (array_key_exists($_POST['redirect'], $config['allowed_redirects'])) {
                 //make a web request to moodle API to validate key
-                try {
-                    $body = [
-                        'user' => [
+                if ($_POST['redirect'] == "lms") {
+                    try {
+                        $body = [
+                                'user' => [
 //                            'firstname' => $user['firstname'],
 //                            'lastname' => $user['lastname'],
-                            'email' => $user['email']
+                                        'email' => $user['email']
 //                            'username' => "test"
-                        ]
-                    ];
+                                ]
+                        ];
 
-                    $url = "https://lms.eloquencia.org/webservice/rest/server.php?wstoken=" . $config['moodle_creds']['token'] . "&wsfunction=auth_userkey_request_login_url" . "&moodlewsrestformat=json";
-                    $curl = new curl;
-                    try {
-                        $resp     = $curl->post($url, $body);
-                        $resp     = json_decode($resp);
-                        if ($resp && !empty($resp->loginurl)) {
-                            $loginurl = $resp->loginurl;
-                            header('Location: ' . $loginurl);
-                        } else {
-                            echo "Erreur lors de la récupération de l'URL de connexion Moodle : ";
-                            echo var_export($resp, true);
+                        $url = "https://lms.eloquencia.org/webservice/rest/server.php?wstoken=" . $config['moodle_creds']['token'] . "&wsfunction=auth_userkey_request_login_url" . "&moodlewsrestformat=json";
+                        $curl = new curl;
+                        try {
+                            $resp     = $curl->post($url, $body);
+                            $resp     = json_decode($resp);
+                            if ($resp && !empty($resp->loginurl)) {
+                                $loginurl = $resp->loginurl;
+                                header('Location: ' . $loginurl);
+                            } else {
+                                echo "Erreur lors de la récupération de l'URL de connexion Moodle : ";
+                                echo var_export($resp, true);
+                            }
+                        } catch (Exception $ex) {
+                            return false;
                         }
-                    } catch (Exception $ex) {
-                        return false;
+                    } catch (Exception $e) {
+                        echo "Erreur lors de la connexion à Moodle : " . $e->getMessage();
+                        exit;
                     }
-                } catch (Exception $e) {
-                    echo "Erreur lors de la connexion à Moodle : " . $e->getMessage();
-                    exit;
                 }
+
             } else {
                 echo "Redirection non autorisée.";
             }
