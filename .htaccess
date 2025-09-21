@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^verify/([a-f0-9]{64})$ verify.php [L,QSA]
