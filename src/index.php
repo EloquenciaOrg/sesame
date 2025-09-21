@@ -73,23 +73,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['pass
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <form method="post">
-        <?php echo "Redirection prévue vers : " . htmlspecialchars($redirect) . "<br>"; ?>
-        <label for="email">Email :</label>
-        <input type="email" name="email" id="email" required>
-        <br>
-        <label for="password">Mot de passe :</label>
-        <input type="password" name="password" id="password" required>
-        <br>
-        <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
-        <button type="submit">Se connecter</button>
-    </form>
-    <?php if ($result !== null): ?>
-        <p><?php echo $result; ?></p>
-    <?php endif; ?>
+<div class="text-center">
+    <img src="images/logo.png" alt="logo" style="height:200px;">
+</div>
+<div class="container d-flex justify-content-center align-items-center mt-4">
+    <div class="card shadow-lg border-0 rounded-4" style="max-width: 420px; width: 100%;">
+        <div class="card-header bg-warning text-dark text-center rounded-top-4">
+            <h3 class="mb-0 fw-semibold">Connexion</h3>
+        </div>
+        <div class="card-body p-4">
+            <form method="POST" autocomplete="off">
+                <div class="d-flex align-items-center p-2">
+                    <div class="ml-2 p-2 rounded" style="background-color: #ffffef">
+                        <h5>Vous allez vous connecter au service :</h5>
+                        <p><b><?php echo $_GET['redirect']?></b></p>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Adresse email</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
+                        <input type="email" name="email" id="email" class="form-control rounded-end " autofocus required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="bi bi-lock"></i></span>
+                        <input type="password" name="password" id="password"
+                               class="form-control rounded-end" required>
+                    </div>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-warning text-dark fw-bold rounded-pill">Se connecter</button>
+<!--                    <a href="/password_forgot" class="text-primary text-decoration-none text-center">Mot de passe oublié ?</a>-->
+                </div>
+            </form>
+        </div>
+    </div>
+<!--    <form method="post">-->
+<!--        --><?php //echo "Redirection prévue vers : " . htmlspecialchars($redirect) . "<br>"; ?>
+<!--        <label for="email">Email :</label>-->
+<!--        <input type="email" name="email" id="email" required>-->
+<!--        <br>-->
+<!--        <label for="password">Mot de passe :</label>-->
+<!--        <input type="password" name="password" id="password" required>-->
+<!--        <br>-->
+<!--        <input type="hidden" name="redirect" value="--><?php //echo htmlspecialchars($redirect); ?><!--">-->
+<!--        <button type="submit">Se connecter</button>-->
+<!--    </form>-->
+<!--    --><?php //if ($result !== null): ?>
+<!--        <p>--><?php //echo $result; ?><!--</p>-->
+<!--    --><?php //endif; ?>
 </body>
 </html>
