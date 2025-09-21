@@ -2,6 +2,8 @@
 require_once __DIR__ . '/database.php';
 require_once __DIR__ . '/User.php';
 require_once __DIR__ . '/Session.php';
+require_once('curl.php');
+
 $config = require __DIR__ . '/config.php';
 $db = Database::getInstance($config)->getPdo();
 $userModel = new User($db);
@@ -25,7 +27,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['pass
         // Redirection si le paramètre existe dans POST
         if (!empty($_POST['redirect'])) {
             if (array_key_exists($_POST['redirect'], $config['allowed_redirects'])) {
-                header('Location: ' . $config['allowed_redirects'][$_POST['redirect']] . $result);
+                //make a web request to moodle API to validate key
+                try {
+                    $body = [
+                        'user' => [
+//                            'firstname' => $user['firstname'],
+//                            'lastname' => $user['lastname'],
+                            'email' => $user['email']
+//                            'username' => "test"
+                        ]
+                    ];
+
+                    $url = "https://lms.eloquencia.org/webservice/rest/server.php?wstoken=" . $config['moodle_creds']['token'] . "&wsfunction=auth_userkey_request_login_url" . "&moodlewsrestformat=json";
+                    $curl = new curl;
+                    try {
+                        $resp     = $curl->post($url, $body);
+                        $resp     = json_decode($resp);
+                        if ($resp && !empty($resp->loginurl)) {
+                            $loginurl = $resp->loginurl;
+                            header('Location: ' . $loginurl);
+                        } else {
+                            echo "Erreur lors de la récupération de l'URL de connexion Moodle : ";
+                            echo var_export($resp, true);
+                        }
+                    } catch (Exception $ex) {
+                        return false;
+                    }
+                } catch (Exception $e) {
+                    echo "Erreur lors de la connexion à Moodle : " . $e->getMessage();
+                    exit;
+                }
             } else {
                 echo "Redirection non autorisée.";
             }
