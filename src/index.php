@@ -8,7 +8,7 @@ $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/View/templates');
 $twig = new \Twig\Environment($loader);
 
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri = parse_url(htmlspecialchars($_SERVER['REQUEST_URI']), PHP_URL_PATH);
 
 switch ($uri) {
     case '/':

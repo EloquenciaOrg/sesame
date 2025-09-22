@@ -23,7 +23,8 @@ class LoginController
             throw new \Exception('Redirect URL not found.');
         }
 
-        echo $this->twig->render('login.twig', ['redirect' => $redirect]);
+        $redirectLabel = (new RedirectController())->getByName($redirect)->label ?? 'Default';
+        echo $this->twig->render('login.twig', ['redirect' => $redirect, 'redirectLabel' => $redirectLabel]);
 
     }
 
@@ -82,11 +83,11 @@ class LoginController
         session_start();
 
         // Get POST data
-        $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
+        $email = htmlspecialchars($_POST['email']) ?? '';
+        $password = htmlspecialchars($_POST['password']) ?? '';
 
         // Récupère l'argument redirect
-        $redirect = $_POST['redirect'] ?? '';
+        $redirect = htmlspecialchars($_POST['redirect']) ?? '';
         $redirectController = new RedirectController();
         $redirect = $redirectController->getByName($redirect);
 
