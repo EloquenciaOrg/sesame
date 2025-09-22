@@ -1,0 +1,47 @@
+<?php
+namespace App\Controller;
+
+use App\Model\User;
+use App\Database;
+
+class UserController
+{
+    // Fetch all users
+    public function getAll()
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->query('SELECT id, email, login, firstname, lastname, password_hash FROM users');
+        $users = [];
+        while ($row = $stmt->fetch()) {
+            $users[] = new User($row['id'], $row['email'], $row['login'], $row['firstname'], $row['lastname'], $row['password_hash']);
+        }
+        return $users;
+    }
+
+    // Fetch a user by ID
+    public function getById($id)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare('SELECT id, email, login, firstname, lastname, password_hash FROM users WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch();
+        if ($row) {
+            return new User($row['id'], $row['email'], $row['login'], $row['firstname'], $row['lastname'], $row['password_hash']);
+        }
+        return null;
+    }
+
+
+    // Fetch user by email
+    public function getByEmail($email)
+    {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->prepare('SELECT id, email, login, firstname, lastname, password_hash FROM users WHERE email = :email');
+        $stmt->execute(['email' => $email]);
+        $row = $stmt->fetch();
+        if ($row) {
+            return new User($row['id'], $row['email'], $row['login'], $row['firstname'], $row['lastname'], $row['password_hash']);
+        }
+        return null;
+    }
+}
