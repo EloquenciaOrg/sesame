@@ -13,7 +13,7 @@ MySQL - 11.2.6-MariaDB-ubu2204 : Database - sesame
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`sesame` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-
+USE `sesame`;
 /*Table structure for table `redirects` */
 
 DROP TABLE IF EXISTS `redirects`;
