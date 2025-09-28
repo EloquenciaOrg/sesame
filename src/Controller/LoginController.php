@@ -42,6 +42,9 @@ class LoginController
 
     private function redirectToLMS($redirect, $user)
     {
+        if ($user->lmsAccessExpiration < new \DateTime()) {
+            throw new \Exception('Your access to the LMS has expired.');
+        }
         $config = require __DIR__ . '/../config.php';
         $url = $redirect->url . "?wstoken=" . $config['moodle_creds']['token'] . "&wsfunction=auth_userkey_request_login_url&moodlewsrestformat=json";
         $body = [

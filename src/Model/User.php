@@ -21,7 +21,11 @@ class User
 
     public $lmsAccessExpiration;
 
-    public function __construct($id, $email, $login, $firstname, $lastname, $password, $isAdmin, $newsletter, $lmsAccessExpiration)
+    public $registrationDate;
+
+    public $expirationDate; // Calculated as registrationDate + 1 year
+
+    public function __construct($id, $email, $login, $firstname, $lastname, $password, $isAdmin, $newsletter, $lmsAccessExpiration, $registrationDate)
     {
         $this->id = $id;
         $this->email = $email;
@@ -32,6 +36,8 @@ class User
         $this->isAdmin = $isAdmin;
         $this->newsletter = $newsletter;
         $this->lmsAccessExpiration = $lmsAccessExpiration;
+        $this->registrationDate = $registrationDate;
+        $this->expirationDate = (new DateTime($registrationDate))->modify('+1 year')->format('Y-m-d');
     }
 
     public function verifyPassword($password)
