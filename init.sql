@@ -30,7 +30,7 @@ CREATE TABLE `redirects` (
 /*Data for the table `redirects` */
 
 insert  into `redirects`(`id`,`name`,`label`,`url`,`active`) values 
-(1,'lms','LMS','https://lms.eloquencia.org/webservice/rest/server.php',1);
+(1,'lms','LMS (moodle)','https://lms.eloquencia.org/webservice/rest/server.php',1);
 
 /*Table structure for table `sessions` */
 
@@ -71,8 +71,8 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`email`,`moodleLogin`,`firstname`,`lastname`,`password_hash`,`registration_date`, `expiration_date`, `lms_access_expiration`) values
-(1,'test@test.com','test_test','test','test','$2y$12$eYDQZJ.PmCPm..5b7izzbuohxUcoFxll3KcUVt8VIrlkBjplYnYFm','2025-09-20 21:22:31', '2026-09-20 21:22:31', '2026-09-20');
+insert  into `users`(`id`,`email`,`moodle_login`,`firstname`,`lastname`,`password_hash`,`registration_date`, `expiration_date`, `lms_access_expiration`) values
+(1,'test@test.com','test_test','test','test','$2y$12$eYDQZJ.PmCPm..5b7izzbuohxUcoFxll3KcUVt8VIrlkBjplYnYFm','2025-09-20 21:22:31', '2026-09-20 21:22:31', '2025-09-20 21:22:31');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

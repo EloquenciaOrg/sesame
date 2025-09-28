@@ -10,7 +10,7 @@ class UserController
     public function getAll()
     {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->query('SELECT id, email, login, firstname, lastname, password_hash FROM users');
+        $stmt = $db->query('SELECT id, email, moodle_login, firstname, lastname, password_hash FROM users');
         $users = [];
         while ($row = $stmt->fetch()) {
             $users[] = new User($row['id'], $row['email'], $row['moodleLogin'], $row['firstname'], $row['lastname'], $row['password_hash']);
@@ -22,11 +22,11 @@ class UserController
     public function getById($id)
     {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare('SELECT id, email, login, firstname, lastname, password_hash FROM users WHERE id = :id');
+        $stmt = $db->prepare('SELECT id, email, moodle_login, firstname, lastname, password_hash FROM users WHERE id = :id');
         $stmt->execute(['id' => $id]);
         $row = $stmt->fetch();
         if ($row) {
-            return new User($row['id'], $row['email'], $row['moodleLogin'], $row['firstname'], $row['lastname'], $row['password_hash']);
+            return new User($row['id'], $row['email'], $row['moodle_login'], $row['firstname'], $row['lastname'], $row['password_hash']);
         }
         return null;
     }
@@ -36,11 +36,11 @@ class UserController
     public function getByEmail($email)
     {
         $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare('SELECT id, email, login, firstname, lastname, password_hash FROM users WHERE email = :email');
+        $stmt = $db->prepare('SELECT id, email, moodle_login, firstname, lastname, password_hash, moodle_login, newsletter, lms_access_expiration, registration_date, expiration_date FROM users WHERE email = :email');
         $stmt->execute(['email' => $email]);
         $row = $stmt->fetch();
         if ($row) {
-            return new User($row['id'], $row['email'], $row['moodleLogin'], $row['firstname'], $row['lastname'], $row['password_hash']);
+            return new User($row['id'], $row['email'], $row['moodle_login'], $row['firstname'], $row['lastname'], $row['password_hash'], $row['moodle_login'], $row['newsletter'], $row['lms_access_expiration'], $row['registration_date'], $row['expiration_date']);
         }
         return null;
     }

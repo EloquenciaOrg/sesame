@@ -42,7 +42,7 @@ class LoginController
 
     private function redirectToLMS($redirect, $user)
     {
-        if ($user->lmsAccessExpiration < new \DateTime()) {
+        if (new \DateTime($user->lmsAccessExpiration) < new \DateTime()) {
             throw new \Exception('Your access to the LMS has expired.');
         }
         $config = require __DIR__ . '/../config.php';
