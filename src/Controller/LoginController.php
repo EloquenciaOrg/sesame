@@ -47,7 +47,7 @@ class LoginController
         $body = [
             'user' => [
                 'email' => $user->email,
-                'username' => $user->login,
+                'username' => $user->moodleLogin,
                 'firstname' => $user->firstname,
                 'lastname' => $user->lastname
             ]
