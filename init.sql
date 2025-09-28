@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(32) unsigned NOT NULL AUTO_INCREMENT COMMENT 'session id',
   `email` varchar(255) NOT NULL COMMENT 'email of the user',
-  `login` varchar(32) NOT NULL,
+  `moodleLogin` varchar(32) NOT NULL,
   `firstname` varchar(64) NOT NULL,
   `lastname` varchar(64) NOT NULL,
   `password_hash` varchar(255) NOT NULL COMMENT 'hased password',
@@ -67,7 +67,7 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`email`,`login`,`firstname`,`lastname`,`password_hash`,`created_at`) values 
+insert  into `users`(`id`,`email`,`moodleLogin`,`firstname`,`lastname`,`password_hash`,`created_at`) values
 (1,'test@test.com','testtest','test','test','$2y$12$eYDQZJ.PmCPm..5b7izzbuohxUcoFxll3KcUVt8VIrlkBjplYnYFm','2025-09-20 21:22:31');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
