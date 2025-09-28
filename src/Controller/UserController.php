@@ -13,7 +13,7 @@ class UserController
         $stmt = $db->query('SELECT id, email, login, firstname, lastname, password_hash FROM users');
         $users = [];
         while ($row = $stmt->fetch()) {
-            $users[] = new User($row['id'], $row['email'], $row['login'], $row['firstname'], $row['lastname'], $row['password_hash']);
+            $users[] = new User($row['id'], $row['email'], $row['moodleLogin'], $row['firstname'], $row['lastname'], $row['password_hash']);
         }
         return $users;
     }
@@ -26,7 +26,7 @@ class UserController
         $stmt->execute(['id' => $id]);
         $row = $stmt->fetch();
         if ($row) {
-            return new User($row['id'], $row['email'], $row['login'], $row['firstname'], $row['lastname'], $row['password_hash']);
+            return new User($row['id'], $row['email'], $row['moodleLogin'], $row['firstname'], $row['lastname'], $row['password_hash']);
         }
         return null;
     }
@@ -40,8 +40,28 @@ class UserController
         $stmt->execute(['email' => $email]);
         $row = $stmt->fetch();
         if ($row) {
-            return new User($row['id'], $row['email'], $row['login'], $row['firstname'], $row['lastname'], $row['password_hash']);
+            return new User($row['id'], $row['email'], $row['moodleLogin'], $row['firstname'], $row['lastname'], $row['password_hash']);
         }
         return null;
+    }
+
+    // Create a new user
+    public function create($email, $firstname, $lastname, $password, $login, $newsletter, $lmsAccessExpiration, $registrationDate)
+    {
+        $db = Database::getInstance()->getConnection();
+        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+        $stmt = $db->prepare('INSERT INTO users (email, firstname, lastname, password_hash, moodle_login, newsletter, lms_access_expiration, registration_date, expiration_date) VALUES (:email, :firstname, :lastname, :password_hash, :login, :newsletter, :lms_access_expiration, :registration_date, :expiration_date)');
+        $stmt->execute([
+            'email' => $email,
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'password_hash' => $passwordHash,
+            'moodle_login' => $login,
+            'newsletter' => $newsletter,
+            'lms_access_expiration' => $lmsAccessExpiration,
+            'registration_date' => $registrationDate,
+            'expiration_date' => (new \DateTime('now'))->modify('+1 year')->format('Y-m-d H:i:s')
+        ]);
+        return $db->lastInsertId();
     }
 }

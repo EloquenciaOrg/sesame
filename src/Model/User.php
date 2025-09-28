@@ -7,7 +7,7 @@ class User
 {
     public $id;
     public $email;
-    public $login;
+    public $moodleLogin;
 
     public $firstname;
 
@@ -25,11 +25,11 @@ class User
 
     public $expirationDate; // Calculated as registrationDate + 1 year
 
-    public function __construct($id, $email, $login, $firstname, $lastname, $password, $isAdmin, $newsletter, $lmsAccessExpiration, $registrationDate)
+    public function __construct($id, $email, $moodleLogin, $firstname, $lastname, $password, $isAdmin, $newsletter, $lmsAccessExpiration, $registrationDate, $expirationDate)
     {
         $this->id = $id;
         $this->email = $email;
-        $this->login = $login;
+        $this->moodleLogin = $moodleLogin;
         $this->firstname = $firstname;
         $this->lastname = $lastname;
         $this->password = $password;
@@ -37,7 +37,7 @@ class User
         $this->newsletter = $newsletter;
         $this->lmsAccessExpiration = $lmsAccessExpiration;
         $this->registrationDate = $registrationDate;
-        $this->expirationDate = (new DateTime($registrationDate))->modify('+1 year')->format('Y-m-d');
+        $this->expirationDate = $expirationDate;
     }
 
     public function verifyPassword($password)
