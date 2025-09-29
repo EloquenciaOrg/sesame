@@ -48,32 +48,6 @@ CREATE TABLE `sessions` (
   CONSTRAINT `sessions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-/*Data for the table `sessions` */
-
-/*Table structure for table `users` */
-
-DROP TABLE IF EXISTS `users`;
-
-CREATE TABLE `users` (
-  `id` int(32) unsigned NOT NULL AUTO_INCREMENT COMMENT 'session id',
-  `email` varchar(255) NOT NULL COMMENT 'email of the user',
-  `moodle_login` varchar(32) NOT NULL,
-  `firstname` varchar(64) NOT NULL,
-  `lastname` varchar(64) NOT NULL,
-  `password_hash` varchar(255) NOT NULL COMMENT 'hased password',
-  `isAdmin` tinyint(1) NOT NULL DEFAULT 0,
-  `newsletter` tinyint(1) NOT NULL,
-  `lms_access_expiration` date DEFAULT NULL,
-  `registration_date` date DEFAULT NULL,
-  `expiration_date` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-/*Data for the table `users` */
-
-insert  into `users`(`id`,`email`,`moodle_login`,`firstname`,`lastname`,`password_hash`,`registration_date`, `expiration_date`, `lms_access_expiration`) values
-(1,'test@test.com','test_test','test','test','$2y$12$eYDQZJ.PmCPm..5b7izzbuohxUcoFxll3KcUVt8VIrlkBjplYnYFm','2025-09-20 21:22:31', '2026-09-20 21:22:31', '2025-09-20 21:22:31');
-
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

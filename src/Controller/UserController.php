@@ -1,19 +1,20 @@
 <?php
-namespace App\Controller\Controller;
+namespace App\Controller;
 
-use App\Controller\Model\User;
-use App\Controller\Database;
+use App\Model\User;
+use App\Database;
+use App\Database2;
 
 class UserController
 {
     // Fetch all users
     public function getAll()
     {
-        $db = Database::getInstance()->getConnection();
-        $stmt = $db->query('SELECT id, email, moodle_login, firstname, lastname, password_hash FROM users');
+        $db = Database2::getInstance()->getConnection();
+        $stmt = $db->query('SELECT id, email, moodle_login, firstname, name, password FROM members');
         $users = [];
         while ($row = $stmt->fetch()) {
-            $users[] = new User($row['id'], $row['email'], $row['moodleLogin'], $row['firstname'], $row['lastname'], $row['password_hash']);
+            $users[] = new User($row['id'], $row['email'], $row['moodle_login'], $row['firstname'], $row['name'], $row['password']);
         }
         return $users;
     }
@@ -21,12 +22,12 @@ class UserController
     // Fetch a user by ID
     public function getById($id)
     {
-        $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare('SELECT id, email, moodle_login, firstname, lastname, password_hash FROM users WHERE id = :id');
+        $db = Database2::getInstance()->getConnection();
+        $stmt = $db->prepare('SELECT id, email, moodle_login, firstname, name, password FROM members WHERE id = :id');
         $stmt->execute(['id' => $id]);
         $row = $stmt->fetch();
         if ($row) {
-            return new User($row['id'], $row['email'], $row['moodle_login'], $row['firstname'], $row['lastname'], $row['password_hash']);
+            return new User($row['id'], $row['email'], $row['moodle_login'], $row['firstname'], $row['name'], $row['password']);
         }
         return null;
     }
@@ -35,33 +36,13 @@ class UserController
     // Fetch user by email
     public function getByEmail($email)
     {
-        $db = Database::getInstance()->getConnection();
-        $stmt = $db->prepare('SELECT id, email, moodle_login, firstname, lastname, password_hash, moodle_login, newsletter, lms_access_expiration, registration_date, expiration_date FROM users WHERE email = :email');
+        $db = Database2::getInstance()->getConnection();
+        $stmt = $db->prepare('SELECT id, email, moodle_login, firstname, name, password, moodle_login, newsletter, lmsAccessExpiration, registrationDate, expirationDate, isAdmin FROM members WHERE email = :email');
         $stmt->execute(['email' => $email]);
         $row = $stmt->fetch();
         if ($row) {
-            return new User($row['id'], $row['email'], $row['moodle_login'], $row['firstname'], $row['lastname'], $row['password_hash'], $row['moodle_login'], $row['newsletter'], $row['lms_access_expiration'], $row['registration_date'], $row['expiration_date']);
+            return new User($row['id'], $row['email'], $row['moodle_login'], $row['firstname'], $row['name'], $row['password'], $row['isAdmin'], $row['newsletter'], $row['lmsAccessExpiration'], $row['registrationDate'], $row['expirationDate']);
         }
         return null;
-    }
-
-    // Create a new user
-    public function create($email, $firstname, $lastname, $password, $login, $newsletter, $lmsAccessExpiration, $registrationDate)
-    {
-        $db = Database::getInstance()->getConnection();
-        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
-        $stmt = $db->prepare('INSERT INTO users (email, firstname, lastname, password_hash, moodle_login, newsletter, lms_access_expiration, registration_date, expiration_date) VALUES (:email, :firstname, :lastname, :password_hash, :login, :newsletter, :lms_access_expiration, :registration_date, :expiration_date)');
-        $stmt->execute([
-            'email' => $email,
-            'firstname' => $firstname,
-            'lastname' => $lastname,
-            'password_hash' => $passwordHash,
-            'moodle_login' => $login,
-            'newsletter' => $newsletter,
-            'lms_access_expiration' => $lmsAccessExpiration,
-            'registration_date' => $registrationDate,
-            'expiration_date' => (new \DateTime('now'))->modify('+1 year')->format('Y-m-d H:i:s')
-        ]);
-        return $db->lastInsertId();
     }
 }

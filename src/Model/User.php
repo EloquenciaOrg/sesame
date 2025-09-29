@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller\Model;
+namespace App\Model;
 
 use DateTime;
 
@@ -7,11 +7,11 @@ class User
 {
     public $id;
     public $email;
-    public $moodleLogin;
+    public $moodle_login;
 
     public $firstname;
 
-    public $lastname;
+    public $name;
 
     public $password; // HASHED PASSWORD
 
@@ -29,9 +29,9 @@ class User
     {
         $this->id = $id;
         $this->email = $email;
-        $this->moodleLogin = $moodleLogin;
+        $this->moodle_login = $moodleLogin;
         $this->firstname = $firstname;
-        $this->lastname = $lastname;
+        $this->name = $lastname;
         $this->password = $password;
         $this->isAdmin = $isAdmin;
         $this->newsletter = $newsletter;

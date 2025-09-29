@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use App\Controller\Controller\LoginController;
+use App\Controller\LoginController;
 
 // Configuration de Twig
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/View/templates');

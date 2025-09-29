@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller\Model;
+namespace App\Model;
 
 class eRedirect
 {

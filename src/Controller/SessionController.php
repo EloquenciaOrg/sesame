@@ -1,8 +1,8 @@
 <?php
-namespace App\Controller\Controller;
+namespace App\Controller;
 
-use App\Controller\Model\Session;
-use App\Controller\Database;
+use App\Model\Session;
+use App\Database;
 
 class SessionController
 {

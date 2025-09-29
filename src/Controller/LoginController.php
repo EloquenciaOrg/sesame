@@ -1,9 +1,9 @@
 <?php
-namespace App\Controller\Controller;
+namespace App\Controller;
 
-use App\Controller\Model\eRedirect;
-use App\Controller\Model\User;
-use App\Controller\Controller\UserController;
+use App\Model\eRedirect;
+use App\Model\User;
+use App\Controller\UserController;
 
 class LoginController
 {
@@ -49,9 +49,9 @@ class LoginController
         $body = [
             'user' => [
                 'email' => $user->email,
-                'username' => $user->moodleLogin,
+                'username' => $user->moodle_login,
                 'firstname' => $user->firstname,
-                'lastname' => $user->lastname
+                'lastname' => $user->name
             ]
         ];
         $ch = curl_init($url);

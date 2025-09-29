@@ -1,8 +1,8 @@
 <?php
-namespace App\Controller\Controller;
+namespace App\Controller;
 
-use App\Controller\Model\Redirect;
-use App\Controller\Database;
+use App\Model\Redirect;
+use App\Database;
 
 class RedirectController
 {
