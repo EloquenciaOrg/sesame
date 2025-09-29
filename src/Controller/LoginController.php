@@ -1,10 +1,9 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Controller;
 
-use App\Model\eRedirect;
-use App\Model\User;
-use App\Controller\UserController;
-use App\Controller\Redirect;
+use App\Controller\Model\eRedirect;
+use App\Controller\Model\User;
+use App\Controller\Controller\UserController;
 
 class LoginController
 {
